@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-cafe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devops-cafe
+  template:
+    metadata:
+      labels:
+        app: devops-cafe
+    spec:
+      containers:
+        - name: devops-cafe
+          image: node:22-alpine
+          command: ["node", "-e"]
+          args:
+            - |
+              const http = require('http');
+              http.createServer((req, res) => {
+                res.writeHead(200, {'Content-Type': 'text/plain'});
+                res.end('Welcome to DevOps Cafe!');
+              }).listen(3000, '0.0.0.0');
+          ports:
+            - containerPort: 3000
